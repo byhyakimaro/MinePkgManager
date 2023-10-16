@@ -11,7 +11,7 @@ class ManagerPkgsMinecraft {
   };
 
   async getFilesCurseApi(manifestInstance) {
-    
+    console.log(manifestInstance)
   };
 
   saveProfileInstance() {
