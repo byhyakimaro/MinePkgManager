@@ -18,15 +18,17 @@ class ManagerPkgsMinecraft {
     const inkVersion = await fetch(urlVersion);
     const { jarDownloadUrl, jsonDownloadUrl } = (await inkVersion.json()).data;
     
-    const pathVersions = path.join(config.directoryInstance, `overrides\\versions\\${versionInstance}`);
-    
-    this.utils._downloadFile(pathVersions, jarDownloadUrl, versionInstance);
-    this.utils._downloadFile(pathVersions, jsonDownloadUrl, versionInstance);
+    const pathVersionInstance = path.join(config.directoryInstance, `overrides\\versions\\${versionInstance}`);
+    this.utils._downloadFile(pathVersionInstance, jarDownloadUrl, versionInstance);
+    this.utils._downloadFile(pathVersionInstance, jsonDownloadUrl, versionInstance);
     
     const versionModInstance = manifestInstance.minecraft?.modLoaders[0].id;
     const urlModVersion = path.join(config.urlProgramAPI, versionModInstance);
+    const inkModVersion = await fetch(urlModVersion);
+    const { downloadUrl, versionJson } = (await inkModVersion.json()).data;
 
-    console.log(urlModVersion);
+    const pathModVersionInstance = path.join(config.directoryInstance, `overrides\\versions\\${versionModInstance}`);
+    this.utils._downloadFile(pathModVersionInstance, downloadUrl, versionModInstance);
   };
 
   saveProfileInstance() {
