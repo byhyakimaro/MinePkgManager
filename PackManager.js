@@ -7,12 +7,11 @@ const os = require('os');
 class ManagerPkgsMinecraft {
   constructor(manifest) {
     this.manifest = manifest;
-    this.Utils = new Utils();
+    this.utils = new Utils();
   };
 
   async getFilesCurseApi(manifestInstance) {
-    const versionsManifest = Utils
-    // this.Utils._downloadFile()
+    
   };
 
   saveProfileInstance() {
