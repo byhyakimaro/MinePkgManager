@@ -10,7 +10,7 @@ class ManagerPkgsMinecraft {
     this.utils = new Utils();
   };
 
-  async loadVersionsCurseApi(manifestInstance) {
+  async loadVersionsInstanceCurseApi(manifestInstance) {
     const versionInstance = manifestInstance.minecraft.version;
     const { config } = this.manifest;
     
@@ -32,6 +32,13 @@ class ManagerPkgsMinecraft {
 
     fs.writeFileSync(`${pathModVersionInstance}/${versionModInstance}.json`, versionJson);
   };
+
+  async loadModsInstanceCurseApi(manifestInstance) {
+    const { files } = manifestInstance;
+    const { config } = this.manifest;
+
+    console.log(files);
+  }
 
   saveProfileInstance() {
     // https://horizonshubapi.knws.repl.co/public/v1/minecraft/version/forge-47.2.1
@@ -55,9 +62,12 @@ class ManagerPkgsMinecraft {
     if (!directoryInstance) throw new Error('set directory instance for run.');
 
     const inkInstManifest = path.join(String(directoryInstance), 'manifest.json');
+    if(!fs.existsSync(inkInstManifest)) return console.log('manifest instance not found.');
+
     const instManifest = JSON.parse(fs.readFileSync(inkInstManifest));
 
-    await this.loadVersionsCurseApi(instManifest);
+    await this.loadVersionsInstanceCurseApi(instManifest);
+    await this.loadModsInstanceCurseApi(instManifest);
   };
 };
 
