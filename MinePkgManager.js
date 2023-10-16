@@ -72,7 +72,7 @@ class ManagerPkgsMinecraft {
       "type": "custom"
     };
 
-    fs.writeFileSync(inkProfiles, profiles);
+    fs.writeFileSync(inkProfiles, JSON.stringify(profiles));
   };
 
   async loadInstance() {
