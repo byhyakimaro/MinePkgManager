@@ -94,11 +94,13 @@ class ManagerPkgsMinecraft {
     await this.loadVersionsInstanceCurseApi(instManifest);
     await this.loadModsInstanceCurseApi(instManifest);
 
-    const overrides = path.join(directoryInstance, 'overrides');
-    this.utils._copyFolderSync(overrides, directoryInstance);
-    this.utils._deleteFilesRecursivelySync(overrides);
-    fs.rmSync(path.join(directoryInstance, 'modlist.html'));
-    fs.rmSync(path.join(directoryInstance, 'manifest.json'));
+    try {
+      const overrides = path.join(directoryInstance, 'overrides');
+      this.utils._copyFolderSync(overrides, directoryInstance);
+      this.utils._deleteFilesRecursivelySync(overrides);
+      fs.rmSync(path.join(directoryInstance, 'modlist.html'));
+      fs.rmSync(path.join(directoryInstance, 'manifest.json'));
+    } catch (err) {}
 
     this.saveProfileInstanceSync(instManifest);
   };
