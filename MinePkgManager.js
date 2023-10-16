@@ -22,15 +22,18 @@ class ManagerPkgsMinecraft {
     this.utils._downloadFile(pathVersionInstance, jarDownloadUrl, versionInstance);
     this.utils._downloadFile(pathVersionInstance, jsonDownloadUrl, versionInstance);
 
-    const versionModInstance = manifestInstance.minecraft?.modLoaders[0].id;
-    const urlModVersion = path.join(urlProgramAPI, versionModInstance);
-    const inkModVersion = await fetch(urlModVersion);
-    const { downloadUrl, versionJson } = (await inkModVersion.json()).data;
+    try {
+      const versionModInstance = manifestInstance.minecraft?.modLoaders[0].id;
+      const urlModVersion = path.join(urlProgramAPI, versionModInstance);
+      const inkModVersion = await fetch(urlModVersion);
+      const { downloadUrl, versionJson } = (await inkModVersion.json()).data;
 
-    const pathModVersionInstance = path.join(directoryInstance, `overrides\\versions\\${versionModInstance}`);
-    this.utils._downloadFile(pathModVersionInstance, downloadUrl, versionModInstance);
+      const pathModVersionInstance = path.join(directoryInstance, `overrides\\versions\\${versionModInstance}`);
+      this.utils._downloadFile(pathModVersionInstance, downloadUrl, versionModInstance);
 
-    fs.writeFileSync(`${pathModVersionInstance}/${versionModInstance}.json`, versionJson);
+      fs.writeFileSync(`${pathModVersionInstance}/${versionModInstance}.json`, versionJson);
+
+    } catch (err) { console.log('modLoaders not found in manifest', err); };
   };
 
   async loadModsInstanceCurseApi(manifestInstance) {
