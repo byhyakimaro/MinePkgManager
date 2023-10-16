@@ -53,12 +53,15 @@ class Utils {
     fs.rmdirSync(directoryPath);
   };
 
-  async _downloadFile(pathEnd, urlDownload) {
+  async _downloadFile(pathEnd, urlDownload, customNameFile) {
     if (!urlDownload.includes('http')) reject('just files web accepted.');
     this._addFolderSync(pathEnd);
 
     const { url, body } = await fetch(urlDownload);
-    const fileName = decodeURIComponent(url.match(/\/([^/]+)$/)[1]).replace(/\+/g,' ');
+    const fileName = customNameFile 
+      ? customNameFile+'.'+(url.match(/\.([^.]+)$/)[1])
+      : decodeURIComponent(url.match(/\/([^/]+)$/)[1]).replace(/\+/g,' ');
+
     const stream = fs.createWriteStream(path.join(pathEnd, fileName));
     await finished(Readable.fromWeb(body).pipe(stream));
   };

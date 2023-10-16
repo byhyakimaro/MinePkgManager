@@ -14,9 +14,16 @@ class ManagerPkgsMinecraft {
     const versionInstance = manifestInstance.minecraft.version;
     const { config } = this.manifest;
 
-    console.log(path.join(config.urlProgramAPI, versionInstance));
+    const urlVersion = path.join(config.urlProgramAPI, versionInstance);
+    const inkVersion = await fetch(urlVersion);
+    const { jarDownloadUrl, jsonDownloadUrl } = (await inkVersion.json()).data;
+
+    const pathVersions = path.join(config.directoryInstance, `overrides\\versions\\${versionInstance}`);
+
+    this.utils._downloadFile(pathVersions, jarDownloadUrl, versionInstance);
+    this.utils._downloadFile(pathVersions, jsonDownloadUrl, versionInstance);
   };
-  
+
   saveProfileInstance() {
     // https://horizonshubapi.knws.repl.co/public/v1/minecraft/version/forge-47.2.1
     // pathProfileDefault.profiles[listModsCursed.name] = {
@@ -40,7 +47,7 @@ class ManagerPkgsMinecraft {
 
     const inkInstManifest = path.join(String(directoryInstance), 'manifest.json');
     const instManifest = JSON.parse(fs.readFileSync(inkInstManifest));
-    
+
     await this.getFilesCurseApi(instManifest);
   };
 };
