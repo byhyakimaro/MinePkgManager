@@ -48,7 +48,7 @@ class ManagerPkgsMinecraft {
     });
   };
 
-  saveProfileInstance() {
+  saveProfileInstanceSync(manifestInstance) {
     // https://horizonshubapi.knws.repl.co/public/v1/minecraft/version/forge-47.2.1
     // pathProfileDefault.profiles[listModsCursed.name] = {
     //   "created": new Date().toISOString(),
@@ -76,6 +76,8 @@ class ManagerPkgsMinecraft {
 
     await this.loadVersionsInstanceCurseApi(instManifest);
     await this.loadModsInstanceCurseApi(instManifest);
+    
+    this.saveProfileInstanceSync(instManifest);
   };
 };
 
