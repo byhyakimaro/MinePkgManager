@@ -10,7 +10,7 @@ class ManagerPkgsMinecraft {
     this.utils = new Utils();
   };
 
-  async downloadCurseApi(manifestInstance) {
+  async loadVersionsCurseApi(manifestInstance) {
     const versionInstance = manifestInstance.minecraft.version;
     const { config } = this.manifest;
     
@@ -55,7 +55,7 @@ class ManagerPkgsMinecraft {
     const inkInstManifest = path.join(String(directoryInstance), 'manifest.json');
     const instManifest = JSON.parse(fs.readFileSync(inkInstManifest));
 
-    await this.downloadCurseApi(instManifest);
+    await this.loadVersionsCurseApi(instManifest);
   };
 };
 
