@@ -72,7 +72,7 @@ class ManagerPkgsMinecraft {
       "type": "custom"
     };
 
-    console.log(profiles);
+    fs.writeFileSync(inkProfiles, profiles);
   };
 
   async loadInstance() {
