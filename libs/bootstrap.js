@@ -41,8 +41,6 @@ class Bootstrap {
     if (!process.argv.includes('--dir') && !process.argv.includes('--inst')
       && fs.existsSync(this.fileManifest)) return console.log('the version this file exist.');
 
-    this.utils._downloadFile(dirPackage, 'https://piston-meta.mojang.com/mc/game/version_manifest_v2.json');
-
     const manifestObj = {
       "config": {
         "urlProgramAPI": 'https://horizonshubapi.knws.repl.co/public/v1/minecraft/version/',

@@ -18,9 +18,12 @@ class ManagerPkgsMinecraft {
     const inkVersion = await fetch(urlVersion);
     const { jarDownloadUrl, jsonDownloadUrl } = (await inkVersion.json()).data;
 
-    const pathVersionInstance = path.join(directoryInstance, `overrides\\versions\\${versionInstance}`);
+    const pathVersionInstance = path.join(directoryInstance, `versions\\${versionInstance}`);
     this.utils._downloadFile(pathVersionInstance, jarDownloadUrl, versionInstance);
     this.utils._downloadFile(pathVersionInstance, jsonDownloadUrl, versionInstance);
+
+    const pathInstance = path.join(directoryInstance, `versions`);
+    this.utils._downloadFile(pathInstance, 'https://piston-meta.mojang.com/mc/game/version_manifest_v2.json');
 
     try {
       const versionModInstance = manifestInstance.minecraft?.modLoaders[0].id;
@@ -28,7 +31,7 @@ class ManagerPkgsMinecraft {
       const inkModVersion = await fetch(urlModVersion);
       const { downloadUrl, versionJson } = (await inkModVersion.json()).data;
 
-      const pathModVersionInstance = path.join(directoryInstance, `overrides\\versions\\${versionModInstance}`);
+      const pathModVersionInstance = path.join(directoryInstance, `versions\\${versionModInstance}`);
       // this.utils._downloadFile(pathModVersionInstance, downloadUrl, versionModInstance);
       this.utils._addFolderSync(pathModVersionInstance);
       const formattedVersionJson = JSON.parse(versionJson)
@@ -44,7 +47,7 @@ class ManagerPkgsMinecraft {
     const { directoryInstance } = this.manifest.config;
     const { files } = manifestInstance;
 
-    const pathEnd = path.join(directoryInstance, '\\overrides\\mods');
+    const pathEnd = path.join(directoryInstance, '\\mods');
 
     files.forEach(({ fileID }) => {
       const urlDownload = `https://www.curseforge.com/api/v1/mods/864599/files/${fileID}/download`;
@@ -64,7 +67,7 @@ class ManagerPkgsMinecraft {
 
     pathProfileDefault.profiles[name] = {
       "created": new Date().toISOString(),
-      "javaArgs": `${memoryAllocInstance} -Dfml.ignorePatchDiscrepancies=true -Dfml.ignoreInvalidMinecraftCertificates=true`,
+      "javaArgs": `${memoryAllocInstance} -Dminecraft.applet.TargetDirectory=\"${directoryInstance}\" -Dfml.ignorePatchDiscrepancies=true -Dfml.ignoreInvalidMinecraftCertificates=true`,
       "gameDir": directoryInstance,
       "lastUsed": "2023-10-15T19:45:49.8388535Z",
       "lastVersionId": versionModInstance,
@@ -75,7 +78,7 @@ class ManagerPkgsMinecraft {
       },
       "type": "custom"
     };
-    const fileProfilePath = path.join(directoryInstance, '\\overrides\\launcher_profiles.json')
+    const fileProfilePath = path.join(directoryInstance, 'launcher_profiles.json')
 
     fs.writeFileSync(fileProfilePath, JSON.stringify(pathProfileDefault));
   };
