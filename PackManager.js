@@ -14,7 +14,7 @@ class ManagerPkgsMinecraft {
     const versionInstance = manifestInstance.minecraft.version;
     const { config } = this.manifest;
 
-    console.log(config);
+    console.log(path.join(config.urlProgramAPI, versionInstance));
   };
   
   saveProfileInstance() {
