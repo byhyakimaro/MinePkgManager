@@ -5,8 +5,8 @@ const os = require('os');
 
 class Bootstrap {
   constructor() {
-    this.initManifest();
     this.utils = new Utils();
+    this.initManifest();
   };
 
   initManifest() {
@@ -41,8 +41,7 @@ class Bootstrap {
     if(!process.argv.includes('--dir') && !process.argv.includes('--inst') 
     && fs.existsSync(this.fileManifest)) return console.log('manifest created.');
 
-    // this.utils._downloadFile(dirPackage, 'https://piston-meta.mojang.com/mc/game/version_manifest_v2.json');
-    console.log(this.utils)
+    this.utils._downloadFile(dirPackage, 'https://piston-meta.mojang.com/mc/game/version_manifest_v2.json');
 
     const manifestObj = {
       "config": {
