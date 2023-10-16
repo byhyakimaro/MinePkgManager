@@ -71,8 +71,9 @@ class ManagerPkgsMinecraft {
       },
       "type": "custom"
     };
+    const fileProfilePath = path.join(directoryInstance, '\\overrides\\launcher_profiles.json')
 
-    fs.writeFileSync(path.join(directoryInstance, '\\overrides'), JSON.stringify(pathProfileDefault));
+    fs.writeFileSync(fileProfilePath, JSON.stringify(pathProfileDefault));
   };
 
   async loadInstance() {
