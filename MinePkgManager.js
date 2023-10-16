@@ -1,5 +1,6 @@
 const Utils = require('./libs/utils');
 const Bootstrap = require('./libs/bootstrap');
+const { exec } = require('node:child_process');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
@@ -100,13 +101,21 @@ class ManagerPkgsMinecraft {
       this.utils._deleteFilesRecursivelySync(overrides);
       fs.rmSync(path.join(directoryInstance, 'modlist.html'));
       fs.rmSync(path.join(directoryInstance, 'manifest.json'));
-    } catch (err) {}
+    } catch (err) { }
 
     this.saveProfileInstanceSync(instManifest);
   };
+
+  async openInstance() {
+    await this.loadInstance();
+
+    const pathMinecraft = path.join(os.homedir(), 'AppData\\Roaming\\.minecraft');
+    this.utils._copyFolderSync(path.join(pathMinecraft, 'versions'), path.join(os.tmpdir(), '.mine\\versions'));
+    fs.copyFileSync(path.join(pathMinecraft, 'launcher_profiles.json'), path.join(os.tmpdir(), '.mine'));
+  }
 };
 
 const bootstrap = (new Bootstrap()).getManifest();
 const managerPkg = new ManagerPkgsMinecraft(bootstrap);
 
-managerPkg.loadInstance();
+managerPkg.openInstance();

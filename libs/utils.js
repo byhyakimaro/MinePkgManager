@@ -20,7 +20,7 @@ class Utils {
 
   _copyFolderSync(src, dest) {
     if (!fs.existsSync(dest)) {
-      fs.mkdirSync(dest);
+      fs.mkdirSync(dest, { recursive: true });
     }
 
     this._addFolderSync(src);
