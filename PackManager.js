@@ -10,18 +10,23 @@ class ManagerPkgsMinecraft {
     this.utils = new Utils();
   };
 
-  async getFilesCurseApi(manifestInstance) {
+  async downloadCurseApi(manifestInstance) {
     const versionInstance = manifestInstance.minecraft.version;
     const { config } = this.manifest;
-
+    
     const urlVersion = path.join(config.urlProgramAPI, versionInstance);
     const inkVersion = await fetch(urlVersion);
     const { jarDownloadUrl, jsonDownloadUrl } = (await inkVersion.json()).data;
-
+    
     const pathVersions = path.join(config.directoryInstance, `overrides\\versions\\${versionInstance}`);
-
+    
     this.utils._downloadFile(pathVersions, jarDownloadUrl, versionInstance);
     this.utils._downloadFile(pathVersions, jsonDownloadUrl, versionInstance);
+    
+    const versionModInstance = manifestInstance.minecraft?.modLoaders[0].id;
+    const urlModVersion = path.join(config.urlProgramAPI, versionModInstance);
+
+    console.log(urlModVersion);
   };
 
   saveProfileInstance() {
@@ -48,7 +53,7 @@ class ManagerPkgsMinecraft {
     const inkInstManifest = path.join(String(directoryInstance), 'manifest.json');
     const instManifest = JSON.parse(fs.readFileSync(inkInstManifest));
 
-    await this.getFilesCurseApi(instManifest);
+    await this.downloadCurseApi(instManifest);
   };
 };
 
