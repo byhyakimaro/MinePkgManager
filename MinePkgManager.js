@@ -49,20 +49,27 @@ class ManagerPkgsMinecraft {
   };
 
   saveProfileInstanceSync(manifestInstance) {
-    // https://horizonshubapi.knws.repl.co/public/v1/minecraft/version/forge-47.2.1
-    // pathProfileDefault.profiles[listModsCursed.name] = {
-    //   "created": new Date().toISOString(),
-    //   "javaArgs": "-Xmx4096m -Xms256m -Dfml.ignorePatchDiscrepancies=true -Dfml.ignoreInvalidMinecraftCertificates=true",
-    //   "gameDir" : "C:\\Users\\avara\\AppData\\Roaming\\HHUB\\Minecraft\\instances\\"+listModsCursed.name,
-    //   "lastUsed": "2023-10-15T19:45:49.8388535Z",
-    //   "lastVersionId": listModsCursed.minecraft.modLoaders[0].id,
-    //   "name": listModsCursed.name,
-    //   "resolution": {
-    //     "height": 768,
-    //     "width": 1024
-    //   },
-    //   "type": "custom"
-    // };
+    const { directoryInstance, memoryAllocInstance } = this.manifest.config;
+    const { name } = manifestInstance;
+
+    const versionModInstance = manifestInstance.minecraft?.modLoaders
+      ? manifestInstance.minecraft?.modLoaders[0].id : manifestInstance.minecraft.version;
+
+    pathProfileDefault.profiles[name] = {
+      "created": new Date().toISOString(),
+      "javaArgs": `${memoryAllocInstance} -Dfml.ignorePatchDiscrepancies=true -Dfml.ignoreInvalidMinecraftCertificates=true`,
+      "gameDir": directoryInstance,
+      "lastUsed": "2023-10-15T19:45:49.8388535Z",
+      "lastVersionId": versionModInstance,
+      "name": name,
+      "resolution": {
+        "height": 768,
+        "width": 1024
+      },
+      "type": "custom"
+    };
+
+    
   };
 
   async loadInstance() {
@@ -76,7 +83,7 @@ class ManagerPkgsMinecraft {
 
     await this.loadVersionsInstanceCurseApi(instManifest);
     await this.loadModsInstanceCurseApi(instManifest);
-    
+
     this.saveProfileInstanceSync(instManifest);
   };
 };

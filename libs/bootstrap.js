@@ -49,6 +49,7 @@ class Bootstrap {
         "directoryInstance": dirIns,
         "directoryProgram": dirProgram,
         "directoryPackage": dirPackage,
+        "memoryAllocInstance": "-Xmx4096m -Xms256m"
       },
       "manifestType": "MinecraftModPack",
       "manifestVersion": 1
