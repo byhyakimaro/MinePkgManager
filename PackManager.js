@@ -7,6 +7,12 @@ const os = require('os');
 class ManagerPkgsMinecraft {
   constructor(manifest) {
     this.manifest = manifest;
+    this.Utils = new Utils();
+  };
+
+  async getFilesCurseApi(manifestInstance) {
+    const versionsManifest = Utils
+    // this.Utils._downloadFile()
   };
 
   saveProfileInstance() {
@@ -25,14 +31,14 @@ class ManagerPkgsMinecraft {
     // };
   };
 
-  loadInstance() {
+  async loadInstance() {
     const { directoryInstance } = this.manifest.config;
     if (!directoryInstance) throw new Error('set directory instance for run.');
 
     const inkInstManifest = path.join(String(directoryInstance), 'manifest.json');
     const instManifest = JSON.parse(fs.readFileSync(inkInstManifest));
-
-    console.log(instManifest);
+    
+    await this.getFilesCurseApi(instManifest);
   };
 };
 

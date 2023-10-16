@@ -5,7 +5,9 @@ const fs = require('fs');
 const os = require('os');
 
 class Utils {
-  _addPath(path) {
+  constructor() {};
+
+  _addFolderSync(path) {
     if (!fs.existsSync(path)) {
       try {
         fs.mkdirSync(path, { recursive: true });
@@ -21,7 +23,7 @@ class Utils {
       fs.mkdirSync(dest);
     }
 
-    this._addPath(src);
+    this._addFolderSync(src);
     const files = fs.readdirSync(src);
 
     files.forEach((file) => {
@@ -51,18 +53,14 @@ class Utils {
     fs.rmdirSync(directoryPath);
   };
 
-  async _downloadFileJar(pathEnd, urlDownload) {
+  async _downloadFile(pathEnd, urlDownload) {
     if (!urlDownload.includes('http')) reject('just files web accepted.');
-    this._addPath(pathEnd);
+    this._addFolderSync(pathEnd);
 
     const { url, body } = await fetch(urlDownload);
     const fileName = decodeURIComponent(url.match(/\/([^/]+)$/)[1]).replace(/\+/g,' ');
     const stream = fs.createWriteStream(path.join(pathEnd, fileName));
     await finished(Readable.fromWeb(body).pipe(stream));
-  };
-
-  getFileCurseApi(listPkgsInstance) {
-    
   };
 };
 module.exports = Utils;

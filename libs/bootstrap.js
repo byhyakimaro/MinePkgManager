@@ -1,3 +1,4 @@
+const Utils = require('./utils');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
@@ -5,6 +6,7 @@ const os = require('os');
 class Bootstrap {
   constructor() {
     this.initManifest();
+    this.utils = new Utils();
   };
 
   initManifest() {
@@ -34,16 +36,19 @@ class Bootstrap {
     const dirIns = process.argv.includes('--inst')
       ? process.argv[process.argv.indexOf('--inst') + 1] : null;
 
-    this.fileManifest = path.join(dirPackage, `\\bin\\modules\\manifest.json`);;
+    this.fileManifest = path.join(dirPackage, `\\modules\\manifest.json`);
 
     if(!process.argv.includes('--dir') && !process.argv.includes('--inst') 
     && fs.existsSync(this.fileManifest)) return console.log('manifest created.');
-    
+
+    // this.utils._downloadFile(dirPackage, 'https://piston-meta.mojang.com/mc/game/version_manifest_v2.json');
+    console.log(this.utils)
+
     const manifestObj = {
       "config": {
+        "directoryInstance": dirIns,
         "directoryProgram": dirProgram,
-        "directoryPackage": dirPackage,
-        "directoryInstance": dirIns
+        "directoryPackage": dirPackage
       },
       "manifestType": "MinecraftModPack",
       "manifestVersion": 1
