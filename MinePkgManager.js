@@ -37,10 +37,13 @@ class ManagerPkgsMinecraft {
     const { directoryInstance } = this.manifest.config;
     const { files } = manifestInstance;
 
-    files.forEach(({ fileID }) => {
+    const pathEnd = path.join(directoryInstance, '\\overrides\\mods');
 
+    files.forEach(({ fileID }) => {
+      const urlDownload = `https://www.curseforge.com/api/v1/mods/864599/files/${fileID}/download`;
+      this.utils._downloadFile(pathEnd, urlDownload);
     });
-  }
+  };
 
   saveProfileInstance() {
     // https://horizonshubapi.knws.repl.co/public/v1/minecraft/version/forge-47.2.1
