@@ -49,7 +49,7 @@ class ManagerPkgsMinecraft {
   };
 
   saveProfileInstanceSync(manifestInstance) {
-    const { directoryInstance, memoryAllocInstance } = this.manifest.config;
+    const { directoryInstance, directoryPackage, memoryAllocInstance } = this.manifest.config;
     const { name } = manifestInstance;
 
     const versionModInstance = manifestInstance.minecraft?.modLoaders
