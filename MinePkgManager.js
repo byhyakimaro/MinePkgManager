@@ -56,9 +56,9 @@ class ManagerPkgsMinecraft {
       ? manifestInstance.minecraft?.modLoaders[0].id : manifestInstance.minecraft.version;
 
     const inkProfiles = path.join(directoryPackage, 'launcher_profiles_default.json');
-    const { profiles } = JSON.parse(fs.readFileSync(inkProfiles));
+    const pathProfileDefault = JSON.parse(fs.readFileSync(inkProfiles));
 
-    profiles[name] = {
+    pathProfileDefault.profiles[name] = {
       "created": new Date().toISOString(),
       "javaArgs": `${memoryAllocInstance} -Dfml.ignorePatchDiscrepancies=true -Dfml.ignoreInvalidMinecraftCertificates=true`,
       "gameDir": directoryInstance,
@@ -72,7 +72,7 @@ class ManagerPkgsMinecraft {
       "type": "custom"
     };
 
-    fs.writeFileSync(inkProfiles, JSON.stringify(profiles));
+    fs.writeFileSync(path.join(directoryInstance, '\\overrides'), JSON.stringify(pathProfileDefault));
   };
 
   async loadInstance() {
