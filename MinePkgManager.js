@@ -91,9 +91,14 @@ class ManagerPkgsMinecraft {
     if (!fs.existsSync(inkInstManifest)) return console.log('manifest instance not found.');
 
     const instManifest = JSON.parse(fs.readFileSync(inkInstManifest));
-
     await this.loadVersionsInstanceCurseApi(instManifest);
     await this.loadModsInstanceCurseApi(instManifest);
+
+    const overrides = path.join(directoryInstance, 'overrides');
+    this.utils._copyFolderSync(overrides, directoryInstance);
+    this.utils._deleteFilesRecursivelySync(overrides);
+    fs.rmSync(path.join(directoryInstance, 'modlist.html'));
+    fs.rmSync(path.join(directoryInstance, 'manifest.json'));
 
     this.saveProfileInstanceSync(instManifest);
   };

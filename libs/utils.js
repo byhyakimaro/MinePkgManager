@@ -31,7 +31,7 @@ class Utils {
       const destPath = path.join(dest, file);
 
       if (fs.statSync(srcPath).isDirectory()) {
-        this.copyFolder(srcPath, destPath);
+        this._copyFolderSync(srcPath, destPath);
       } else {
         fs.copyFileSync(srcPath, destPath);
       };
@@ -45,7 +45,7 @@ class Utils {
       const itemPath = path.join(directoryPath, item);
 
       if (fs.lstatSync(itemPath).isDirectory()) {
-        this.deleteFilesRecursivelySync(itemPath);
+        this._deleteFilesRecursivelySync(itemPath);
       } else {
         fs.unlinkSync(itemPath);
       };
