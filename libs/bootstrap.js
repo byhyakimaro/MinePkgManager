@@ -39,9 +39,7 @@ class Bootstrap {
     this.fileManifest = path.join(dirPackage, `\\modules\\manifest.json`);
 
     if (!process.argv.includes('--dir') && !process.argv.includes('--inst')
-      && fs.existsSync(this.fileManifest)) {
-      return JSON.parse(fs.readFileSync(this.fileManifest, 'utf8'));
-    }
+      && fs.existsSync(this.fileManifest)) return console.log('the version this file exist.');
 
     this.utils._downloadFile(dirPackage, 'https://piston-meta.mojang.com/mc/game/version_manifest_v2.json');
 
@@ -55,10 +53,10 @@ class Bootstrap {
       "manifestVersion": 1
     };
     fs.writeFileSync(this.fileManifest, JSON.stringify(manifestObj));
-  }
+  };
 
   getManifest() {
     return JSON.parse(fs.readFileSync(this.fileManifest, 'utf8'));
-  }
+  };
 }
 module.exports = Bootstrap;

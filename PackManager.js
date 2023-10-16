@@ -11,7 +11,10 @@ class ManagerPkgsMinecraft {
   };
 
   async getFilesCurseApi(manifestInstance) {
-    console.log(manifestInstance)
+    const inkVersionManifest = path.join(this.manifest.config.directoryPackage, 'version_manifest_v2.json');
+    const versionManifest = JSON.parse(fs.readFileSync(inkVersionManifest));
+    
+    const instanceManifest = (versionManifest.versions).find(({id})=> id === manifestInstance.minecraft.version);
   };
 
   saveProfileInstance() {
