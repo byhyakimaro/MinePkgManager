@@ -10,7 +10,19 @@ class ManagerPkgsMinecraft {
   };
 
   saveProfileInstance() {
-
+    // pathProfileDefault.profiles[listModsCursed.name] = {
+    //   "created": new Date().toISOString(),
+    //   "javaArgs": "-Xmx4096m -Xms256m -Dfml.ignorePatchDiscrepancies=true -Dfml.ignoreInvalidMinecraftCertificates=true",
+    //   "gameDir" : "C:\\Users\\avara\\AppData\\Roaming\\HHUB\\Minecraft\\instances\\"+listModsCursed.name,
+    //   "lastUsed": "2023-10-15T19:45:49.8388535Z",
+    //   "lastVersionId": listModsCursed.minecraft.modLoaders[0].id,
+    //   "name": listModsCursed.name,
+    //   "resolution": {
+    //     "height": 768,
+    //     "width": 1024
+    //   },
+    //   "type": "custom"
+    // };
   };
 
   loadInstance() {

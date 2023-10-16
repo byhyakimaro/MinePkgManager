@@ -25,7 +25,7 @@ class Bootstrap {
 
     const dirPackage = process.argv.includes('--dir')
       ? process.argv[process.argv.indexOf('--dir') + 1] 
-      : path.join(os.homedir(),'\\AppData\\Roaming\\HHUB\\Minecraft');
+      : path.join(os.homedir(),'\\AppData\\Roaming\\HHUB\\Minecraft\\bin');
 
     const dirProgram = process.argv.includes('--file')
       ? process.argv[process.argv.indexOf('--file') + 1] 
