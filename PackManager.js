@@ -29,6 +29,8 @@ class ManagerPkgsMinecraft {
 
     const pathModVersionInstance = path.join(config.directoryInstance, `overrides\\versions\\${versionModInstance}`);
     this.utils._downloadFile(pathModVersionInstance, downloadUrl, versionModInstance);
+
+    fs.writeFileSync(`${pathModVersionInstance}/${versionModInstance}.json`, versionJson);
   };
 
   saveProfileInstance() {
