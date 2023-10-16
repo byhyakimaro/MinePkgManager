@@ -11,13 +11,14 @@ class ManagerPkgsMinecraft {
   };
 
   async getFilesCurseApi(manifestInstance) {
-    const inkVersionManifest = path.join(this.manifest.config.directoryPackage, 'version_manifest_v2.json');
-    const versionManifest = JSON.parse(fs.readFileSync(inkVersionManifest));
-    
-    const instanceManifest = (versionManifest.versions).find(({id})=> id === manifestInstance.minecraft.version);
-  };
+    const versionInstance = manifestInstance.minecraft.version;
+    const { config } = this.manifest;
 
+    console.log(config);
+  };
+  
   saveProfileInstance() {
+    // https://horizonshubapi.knws.repl.co/public/v1/minecraft/version/forge-47.2.1
     // pathProfileDefault.profiles[listModsCursed.name] = {
     //   "created": new Date().toISOString(),
     //   "javaArgs": "-Xmx4096m -Xms256m -Dfml.ignorePatchDiscrepancies=true -Dfml.ignoreInvalidMinecraftCertificates=true",

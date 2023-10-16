@@ -45,9 +45,10 @@ class Bootstrap {
 
     const manifestObj = {
       "config": {
+        "urlProgramAPI": 'https://horizonshubapi.knws.repl.co/public/v1/minecraft/version/',
         "directoryInstance": dirIns,
         "directoryProgram": dirProgram,
-        "directoryPackage": dirPackage
+        "directoryPackage": dirPackage,
       },
       "manifestType": "MinecraftModPack",
       "manifestVersion": 1
