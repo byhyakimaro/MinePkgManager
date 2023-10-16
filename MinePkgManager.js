@@ -29,9 +29,13 @@ class ManagerPkgsMinecraft {
       const { downloadUrl, versionJson } = (await inkModVersion.json()).data;
 
       const pathModVersionInstance = path.join(directoryInstance, `overrides\\versions\\${versionModInstance}`);
-      this.utils._downloadFile(pathModVersionInstance, downloadUrl, versionModInstance);
+      // this.utils._downloadFile(pathModVersionInstance, downloadUrl, versionModInstance);
+      this.utils._addFolderSync(pathModVersionInstance);
+      const formattedVersionJson = JSON.parse(versionJson)
+      formattedVersionJson.jar = versionInstance;
+      formattedVersionJson.logging = {};
 
-      fs.writeFileSync(`${pathModVersionInstance}/${versionModInstance}.json`, versionJson);
+      fs.writeFileSync(`${pathModVersionInstance}/${versionModInstance}.json`, JSON.stringify(formattedVersionJson));
 
     } catch (err) { console.log('modLoaders not found in manifest', err); };
   };
