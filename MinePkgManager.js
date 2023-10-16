@@ -12,32 +12,34 @@ class ManagerPkgsMinecraft {
 
   async loadVersionsInstanceCurseApi(manifestInstance) {
     const versionInstance = manifestInstance.minecraft.version;
-    const { config } = this.manifest;
-    
-    const urlVersion = path.join(config.urlProgramAPI, versionInstance);
+    const { urlProgramAPI, directoryInstance } = this.manifest.config;
+
+    const urlVersion = path.join(urlProgramAPI, versionInstance);
     const inkVersion = await fetch(urlVersion);
     const { jarDownloadUrl, jsonDownloadUrl } = (await inkVersion.json()).data;
-    
-    const pathVersionInstance = path.join(config.directoryInstance, `overrides\\versions\\${versionInstance}`);
+
+    const pathVersionInstance = path.join(directoryInstance, `overrides\\versions\\${versionInstance}`);
     this.utils._downloadFile(pathVersionInstance, jarDownloadUrl, versionInstance);
     this.utils._downloadFile(pathVersionInstance, jsonDownloadUrl, versionInstance);
-    
+
     const versionModInstance = manifestInstance.minecraft?.modLoaders[0].id;
-    const urlModVersion = path.join(config.urlProgramAPI, versionModInstance);
+    const urlModVersion = path.join(urlProgramAPI, versionModInstance);
     const inkModVersion = await fetch(urlModVersion);
     const { downloadUrl, versionJson } = (await inkModVersion.json()).data;
 
-    const pathModVersionInstance = path.join(config.directoryInstance, `overrides\\versions\\${versionModInstance}`);
+    const pathModVersionInstance = path.join(directoryInstance, `overrides\\versions\\${versionModInstance}`);
     this.utils._downloadFile(pathModVersionInstance, downloadUrl, versionModInstance);
 
     fs.writeFileSync(`${pathModVersionInstance}/${versionModInstance}.json`, versionJson);
   };
 
   async loadModsInstanceCurseApi(manifestInstance) {
+    const { directoryInstance } = this.manifest.config;
     const { files } = manifestInstance;
-    const { config } = this.manifest;
 
-    console.log(files);
+    files.forEach(({ fileID }) => {
+
+    });
   }
 
   saveProfileInstance() {
@@ -62,7 +64,7 @@ class ManagerPkgsMinecraft {
     if (!directoryInstance) throw new Error('set directory instance for run.');
 
     const inkInstManifest = path.join(String(directoryInstance), 'manifest.json');
-    if(!fs.existsSync(inkInstManifest)) return console.log('manifest instance not found.');
+    if (!fs.existsSync(inkInstManifest)) return console.log('manifest instance not found.');
 
     const instManifest = JSON.parse(fs.readFileSync(inkInstManifest));
 
