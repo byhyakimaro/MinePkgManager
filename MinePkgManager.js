@@ -20,8 +20,17 @@ class ManagerPkgsMinecraft {
     const { jarDownloadUrl, jsonDownloadUrl } = (await inkVersion.json()).data;
 
     const pathVersionInstance = path.join(directoryInstance, `versions\\${versionInstance}`);
-    this.utils._downloadFile(pathVersionInstance, jarDownloadUrl, versionInstance);
-    this.utils._downloadFile(pathVersionInstance, jsonDownloadUrl, versionInstance);
+    await this.utils._downloadFile(pathVersionInstance, jarDownloadUrl, versionInstance);
+    await this.utils._downloadFile(pathVersionInstance, jsonDownloadUrl, versionInstance);
+
+    const fileJson = JSON.parse(fs.readFileSync(path.join(pathVersionInstance, `${versionInstance}.json`)));
+    fileJson.libraries.forEach(library => {
+      const pathLibInLibraries = (library.downloads.artifact.path).match(/^(.*\/)([^\/]+)$/)[1];
+      const pathLibMinecraft = path.join(os.homedir(), 'AppData\\Roaming\\.minecraft\\libraries');
+      
+      const inkPathFileLibrary = path.join(pathLibMinecraft, pathLibInLibraries);
+      this.utils._downloadFile(inkPathFileLibrary, library.downloads.artifact.url);
+    });
 
     const pathInstance = path.join(directoryInstance, `versions`);
     this.utils._downloadFile(pathInstance, 'https://piston-meta.mojang.com/mc/game/version_manifest_v2.json');
