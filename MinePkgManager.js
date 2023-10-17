@@ -108,29 +108,33 @@ class ManagerPkgsMinecraft {
 
   async openInstance() {
     await this.loadInstance();
-    const { directoryInstance, directoryProgram, directoryPackage } = this.manifest.config;
+    const { directoryInstance, directoryProgram } = this.manifest.config;
 
     const pathMinecraft = path.join(os.homedir(), 'AppData\\Roaming\\.minecraft');
 
     const inkVersion_Minecraft = path.join(pathMinecraft, 'versions');
     const inkProfile_Minecraft = path.join(pathMinecraft, 'launcher_profiles.json');
 
+    const inkPath_Temp = path.join(os.tmpdir(), 'MinePkg');
     const inkProfile_Temp = path.join(os.tmpdir(), 'MinePkg\\launcher_profiles.json');
 
     const inkVersion_Instance = path.join(directoryInstance, 'versions');
     const inkProfile_Instance = path.join(directoryInstance, 'launcher_profiles.json');
 
-    try{ fs.copyFileSync(inkProfile_Minecraft, inkProfile_Temp); }catch(e){};
+    this.utils._addFolderSync(inkPath_Temp);
+    if(fs.existsSync(inkProfile_Minecraft)) fs.copyFileSync(inkProfile_Minecraft, inkProfile_Temp);
 
     this.utils._copyFolderSync(inkVersion_Instance, inkVersion_Minecraft);
     fs.copyFileSync(inkProfile_Instance, inkProfile_Minecraft);
 
     const processProgram = spawn(directoryProgram);
     processProgram.on('exit', (code) => {
-      try{ fs.copyFileSync(inkProfile_Temp, inkProfile_Minecraft); }catch(e){
+      if(fs.existsSync(inkProfile_Temp)) {
+        fs.copyFileSync(inkProfile_Temp, inkProfile_Minecraft);
+      } else {
         fs.rmSync(inkProfile_Minecraft);
       };
-      try{ this.utils._deleteFilesRecursivelySync(path.join(os.tmpdir(), 'MinePkg')); }catch(e){};
+      this.utils._deleteFilesRecursivelySync(path.join(os.tmpdir(), 'MinePkg'));
 
       console.log(`O programa foi fechado com o código de saída ${code}`);
     });
