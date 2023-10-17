@@ -115,7 +115,7 @@ class ManagerPkgsMinecraft {
     const inkVersion_Minecraft = path.join(pathMinecraft, 'versions');
     const inkProfile_Minecraft = path.join(pathMinecraft, 'launcher_profiles.json');
 
-    const inkProfile_Temp = path.join(os.tmpdir(), '.mine\\launcher_profiles.json');
+    const inkProfile_Temp = path.join(os.tmpdir(), 'MinePkg\\launcher_profiles.json');
 
     const inkVersion_Instance = path.join(directoryInstance, 'versions');
     const inkProfile_Instance = path.join(directoryInstance, 'launcher_profiles.json');
