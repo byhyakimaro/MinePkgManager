@@ -123,7 +123,7 @@ class ManagerPkgsMinecraft {
 
     this.utils._copyFolderSync(inkVersion_Minecraft, inkVersion_Temp);
     fs.copyFileSync(inkProfile_Minecraft, inkProfile_Temp);
-  
+
     this.utils._copyFolderSync(inkVersion_Instance, inkVersion_Minecraft);
     fs.copyFileSync(inkProfile_Instance, inkProfile_Minecraft);
 
@@ -138,7 +138,8 @@ class ManagerPkgsMinecraft {
   }
 };
 
-const bootstrap = (new Bootstrap()).getManifest();
-const managerPkg = new ManagerPkgsMinecraft(bootstrap);
-
-managerPkg.openInstance();
+const bootstrap = (new Bootstrap()).initManifest();
+if (bootstrap) {
+  const managerPkg = new ManagerPkgsMinecraft(bootstrap);
+  managerPkg.openInstance();
+}

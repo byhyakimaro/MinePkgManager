@@ -6,7 +6,6 @@ const os = require('os');
 class Bootstrap {
   constructor() {
     this.utils = new Utils();
-    this.initManifest();
   };
 
   initManifest() {
@@ -36,10 +35,13 @@ class Bootstrap {
     const dirIns = process.argv.includes('--inst')
       ? process.argv[process.argv.indexOf('--inst') + 1] : null;
 
-    this.fileManifest = path.join(dirPackage, `\\modules\\manifest.json`);
+    const fileManifest = path.join(dirPackage, `\\modules\\manifest.json`);
 
     if (!process.argv.includes('--dir') && !process.argv.includes('--inst')
-      && fs.existsSync(this.fileManifest)) return console.log('the version this file exist.');
+      && fs.existsSync(fileManifest)) {
+      console.log('the version this manifest file exist.');
+      return JSON.parse(fs.readFileSync(fileManifest, 'utf8'));
+    }
 
     const manifestObj = {
       "config": {
@@ -52,11 +54,9 @@ class Bootstrap {
       "manifestType": "MinecraftModPack",
       "manifestVersion": 1
     };
-    fs.writeFileSync(this.fileManifest, JSON.stringify(manifestObj));
-  };
-
-  getManifest() {
-    return JSON.parse(fs.readFileSync(this.fileManifest, 'utf8'));
+    fs.writeFileSync(fileManifest, JSON.stringify(manifestObj));
+    
+    return manifestObj;
   };
 }
 module.exports = Bootstrap;
