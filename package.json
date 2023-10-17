@@ -1,0 +1,11 @@
+{
+  "name": "modules",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/byhyakimaro/MinePkgManager.git",
+  "author": "byHyakimaro <moderrevolution090217@gmail.com>",
+  "scripts": {
+    "build": "pkg --targets win-x64 --output MinePkgManager.exe MinePkgManager.js"
+  },
+  "license": "MIT"
+}
