@@ -108,7 +108,7 @@ class ManagerPkgsMinecraft {
 
   async openInstance() {
     await this.loadInstance();
-    const { directoryInstance, directoryProgram } = this.manifest.config;
+    const { directoryInstance, directoryProgram, directoryPackage } = this.manifest.config;
 
     const pathMinecraft = path.join(os.homedir(), 'AppData\\Roaming\\.minecraft');
 
@@ -120,7 +120,10 @@ class ManagerPkgsMinecraft {
     const inkVersion_Instance = path.join(directoryInstance, 'versions');
     const inkProfile_Instance = path.join(directoryInstance, 'launcher_profiles.json');
 
-    try{ fs.copyFileSync(inkProfile_Minecraft, inkProfile_Temp); }catch(e){};
+    try{ fs.copyFileSync(inkProfile_Minecraft, inkProfile_Temp); }catch(e){
+      const fileProfileDefault = path.join(directoryPackage, 'launcher_profiles_default.json');
+      fs.copyFileSync((fileProfileDefault).replace('_default',''), inkProfile_Temp);
+    };
 
     this.utils._copyFolderSync(inkVersion_Instance, inkVersion_Minecraft);
     fs.copyFileSync(inkProfile_Instance, inkProfile_Minecraft);
