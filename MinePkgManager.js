@@ -1,6 +1,6 @@
 const Utils = require('./libs/utils');
 const Bootstrap = require('./libs/bootstrap');
-const { exec } = require('node:child_process');
+const { spawn } = require('node:child_process');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
@@ -108,10 +108,29 @@ class ManagerPkgsMinecraft {
 
   async openInstance() {
     await this.loadInstance();
+    const { directoryInstance, directoryProgram } = this.manifest.config;
 
     const pathMinecraft = path.join(os.homedir(), 'AppData\\Roaming\\.minecraft');
-    this.utils._copyFolderSync(path.join(pathMinecraft, 'versions'), path.join(os.tmpdir(), '.mine\\versions'));
-    fs.copyFileSync(path.join(pathMinecraft, 'launcher_profiles.json'), path.join(os.tmpdir(), '.mine\\launcher_profiles.json'));
+
+    const inkVersion_Minecraft = path.join(pathMinecraft, 'versions');
+    const inkProfile_Minecraft = path.join(pathMinecraft, 'launcher_profiles.json');
+
+    const inkVersion_Temp = path.join(os.tmpdir(), '.mine\\versions');
+    const inkProfile_Temp = path.join(os.tmpdir(), '.mine\\launcher_profiles.json');
+
+    const inkVersion_Instance = path.join(directoryInstance, 'versions');
+    const inkProfile_Instance = path.join(directoryInstance, 'launcher_profiles.json');
+
+    this.utils._copyFolderSync(inkVersion_Minecraft, inkVersion_Temp);
+    fs.copyFileSync(inkProfile_Minecraft, inkProfile_Temp);
+  
+    this.utils._copyFolderSync(inkVersion_Instance, inkVersion_Minecraft);
+    fs.copyFileSync(inkProfile_Instance, inkProfile_Minecraft);
+
+    const processProgram = spawn(directoryProgram);
+    processProgram.on('exit', (code) => {
+      console.log(`O programa foi fechado com o código de saída ${code}`);
+    });
   }
 };
 
