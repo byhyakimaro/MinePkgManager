@@ -120,19 +120,16 @@ class ManagerPkgsMinecraft {
     const inkVersion_Instance = path.join(directoryInstance, 'versions');
     const inkProfile_Instance = path.join(directoryInstance, 'launcher_profiles.json');
 
-    try{ fs.copyFileSync(inkProfile_Minecraft, inkProfile_Temp); }catch(e){
-      const fileProfileDefault = path.join(directoryPackage, 'launcher_profiles_default.json');
-      fs.copyFileSync(fileProfileDefault, inkProfile_Temp);
-      fs.readFileSync(inkProfile_Temp, inkProfile_Temp.replace('_default',''))
-    };
+    try{ fs.copyFileSync(inkProfile_Minecraft, inkProfile_Temp); }catch(e){};
 
     this.utils._copyFolderSync(inkVersion_Instance, inkVersion_Minecraft);
     fs.copyFileSync(inkProfile_Instance, inkProfile_Minecraft);
 
     const processProgram = spawn(directoryProgram);
     processProgram.on('exit', (code) => {
-      fs.copyFileSync(inkProfile_Temp, inkProfile_Minecraft);
-      this.utils._deleteFilesRecursivelySync(path.join(os.tmpdir(), 'MinePkg'));
+      try{ fs.copyFileSync(inkProfile_Temp, inkProfile_Minecraft); }catch(e){};
+      try{ fs.rmSync(inkProfile_Minecraft); }catch(e){};
+      try{ this.utils._deleteFilesRecursivelySync(path.join(os.tmpdir(), 'MinePkg')); }catch(e){};
 
       console.log(`O programa foi fechado com o código de saída ${code}`);
     });
