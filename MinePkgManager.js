@@ -122,7 +122,8 @@ class ManagerPkgsMinecraft {
 
     try{ fs.copyFileSync(inkProfile_Minecraft, inkProfile_Temp); }catch(e){
       const fileProfileDefault = path.join(directoryPackage, 'launcher_profiles_default.json');
-      fs.copyFileSync((fileProfileDefault).replace('_default',''), inkProfile_Temp);
+      fs.copyFileSync(fileProfileDefault, inkProfile_Temp);
+      fs.readFileSync(inkProfile_Temp, inkProfile_Temp.replace('_default',''))
     };
 
     this.utils._copyFolderSync(inkVersion_Instance, inkVersion_Minecraft);
