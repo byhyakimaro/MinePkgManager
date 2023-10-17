@@ -18,7 +18,7 @@ class Bootstrap {
       -h, --help                  Show this help message
       -v, --version               Show version information
       --dir "<directory>"         Specify the working directory
-      --file "<directory/file>"   Specify the program file directory
+      --file "<directory/file>"   Specify the program file
       --inst "<directory>"        Select the working instance directory    
     `);
 
