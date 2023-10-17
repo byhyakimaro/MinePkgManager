@@ -39,6 +39,14 @@ class ManagerPkgsMinecraft {
       formattedVersionJson.jar = versionInstance;
       formattedVersionJson.logging = {};
 
+      formattedVersionJson.libraries.forEach(library => {
+        const pathLibInLibraries = (library.downloads.artifact.path).match(/^(.*\/)([^\/]+)$/)[1];
+        const pathLibMinecraft = path.join(os.homedir(), 'AppData\\Roaming\\.minecraft\\libraries');
+        
+        const inkPathFileLibrary = path.join(pathLibMinecraft, pathLibInLibraries);
+        this.utils._downloadFile(inkPathFileLibrary, library.downloads.artifact.url);
+      });
+
       fs.writeFileSync(`${pathModVersionInstance}/${versionModInstance}.json`, JSON.stringify(formattedVersionJson));
 
     } catch (err) { console.log('modLoaders not found in manifest', err); };
