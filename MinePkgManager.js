@@ -129,6 +129,10 @@ class ManagerPkgsMinecraft {
 
     const processProgram = spawn(directoryProgram);
     processProgram.on('exit', (code) => {
+      this.utils._copyFolderSync(inkVersion_Temp, inkVersion_Minecraft);
+      fs.copyFileSync(inkProfile_Temp, inkProfile_Minecraft);
+      this.utils._deleteFilesRecursivelySync(path.join(os.tmpdir(), '.mine\\'));
+
       console.log(`O programa foi fechado com o código de saída ${code}`);
     });
   }
