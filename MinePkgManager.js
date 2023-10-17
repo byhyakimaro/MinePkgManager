@@ -115,21 +115,18 @@ class ManagerPkgsMinecraft {
     const inkVersion_Minecraft = path.join(pathMinecraft, 'versions');
     const inkProfile_Minecraft = path.join(pathMinecraft, 'launcher_profiles.json');
 
-    const inkVersion_Temp = path.join(os.tmpdir(), '.mine\\versions');
     const inkProfile_Temp = path.join(os.tmpdir(), '.mine\\launcher_profiles.json');
 
     const inkVersion_Instance = path.join(directoryInstance, 'versions');
     const inkProfile_Instance = path.join(directoryInstance, 'launcher_profiles.json');
 
-    this.utils._copyFolderSync(inkVersion_Minecraft, inkVersion_Temp);
-    fs.copyFileSync(inkProfile_Minecraft, inkProfile_Temp);
+    try{ fs.copyFileSync(inkProfile_Minecraft, inkProfile_Temp); }catch(e){};
 
     this.utils._copyFolderSync(inkVersion_Instance, inkVersion_Minecraft);
     fs.copyFileSync(inkProfile_Instance, inkProfile_Minecraft);
 
     const processProgram = spawn(directoryProgram);
     processProgram.on('exit', (code) => {
-      this.utils._copyFolderSync(inkVersion_Temp, inkVersion_Minecraft);
       fs.copyFileSync(inkProfile_Temp, inkProfile_Minecraft);
       this.utils._deleteFilesRecursivelySync(path.join(os.tmpdir(), '.mine\\'));
 
