@@ -111,7 +111,7 @@ class ManagerPkgsMinecraft {
 
     const pathMinecraft = path.join(os.homedir(), 'AppData\\Roaming\\.minecraft');
     this.utils._copyFolderSync(path.join(pathMinecraft, 'versions'), path.join(os.tmpdir(), '.mine\\versions'));
-    fs.copyFileSync(path.join(pathMinecraft, 'launcher_profiles.json'), path.join(os.tmpdir(), '.mine'));
+    fs.copyFileSync(path.join(pathMinecraft, 'launcher_profiles.json'), path.join(os.tmpdir(), '.mine\\launcher_profiles.json'));
   }
 };
 
