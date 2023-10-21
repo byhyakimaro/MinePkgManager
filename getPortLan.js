@@ -4,26 +4,27 @@ const fs = require('fs');
 const os = require('os');
 
 function checkPort(port, timeout) {
-  const client = new net.Socket();
+  return new Promise((resolve, reject) => {
+    const client = new net.Socket();
 
-  client.setTimeout(timeout);
-  client.on('timeout', () => {
-    client.destroy();
-    console.log(`A porta ${port} não está respondendo.`);
-  });
+    client.setTimeout(timeout);
+    client.on('timeout', () => {
+      client.destroy();
+      console.log(`A porta ${port} não está respondendo.`);
+    });
 
-  client.on('connect', () => {
-    console.log(`A porta ${port} está aberta e respondendo.`);
-    client.destroy();
-    return true;
-  });
+    client.on('connect', () => {
+      console.log(`A porta ${port} está aberta e respondendo.`);
+      client.destroy();
+      resolve(`successful connected on port ${port}`);
+    });
 
-  client.on('error', (err) => {
-    console.error(`Erro ao tentar se conectar à porta ${port}: ${err.message}`);
-    client.destroy();
-    return false;
-  });
-  client.connect(port, 'localhost');
+    client.on('error', (err) => {
+      console.error(`Erro ao tentar se conectar à porta ${port}: ${err.message}`);
+      client.destroy();
+    });
+    client.connect(port, 'localhost');
+  })
 }
 
 const filePath = path.join(os.homedir(), 'AppData\\Roaming\\.minecraft\\logs\\latest.log');
@@ -50,11 +51,11 @@ fs.watchFile(filePath, (event, stats) => {
       }
     });
 
-    fileStream.on('end', () => {
+    fileStream.on('end', async () => {
       if (lastPort !== null) {
         console.log(`Última porta encontrada: ${lastPort}`);
-        const checkPort = checkPort(lastPort, 100);
-        checkPort ? console.warn('COMPARTILHAR COM O SERVIDOR') : null;
+        const chkPort = await checkPort(lastPort, 100);
+        console.log(chkPort);
       } else {
         console.log('Nenhuma porta encontrada no arquivo.');
       }
