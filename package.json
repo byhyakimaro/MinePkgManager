@@ -7,5 +7,6 @@
   "scripts": {
     "build": "pkg --targets win-x64 --output MinePkgManager.exe MinePkgManager.js"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {}
 }
